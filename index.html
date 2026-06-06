@@ -2,192 +2,85 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benim Bio - İsim Soyisim</title>
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <title>credosdev</title>
+    <meta content="Credos Project" name="title">
+    <meta content="credosdev | Software Developer — Links & socials." name="description">
+    <meta content="website" property="og:type">
+    <meta content="https://credos.qzz.io/" property="og:url">
+    <meta content="Credos Project" property="og:title">
+    <meta content="credosdev | Software Developer — Links & socials." property="og:description">
+    <meta content="https://cdn.discordapp.com/embed/avatars/4.png" property="og:image">
+    <meta content="summary_large_image" property="twitter:card">
+    <meta content="https://credos.qzz.io/" property="twitter:url">
+    <meta content="Credos Project" property="twitter:title">
+    <meta content="credosdev | Software Developer — Links & socials." property="twitter:description">
+    <meta content="https://cdn.discordapp.com/embed/avatars/4.png" property="twitter:image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
-        
-        :root {
-            --primary: #6366f1;
-            --dark: #0f172a;
-            --light: #f8fafc;
-        }
-        
-        * {
+        html, body {
+            background-color: #000 !important;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            color: #e2e8f0;
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Video Background */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            filter: brightness(0.55) contrast(1.1);
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        header {
-            text-align: center;
-            padding: 4rem 0 3rem;
-        }
-        
-        .avatar {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 6px solid var(--primary);
-            margin-bottom: 1.5rem;
-            object-fit: cover;
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3);
-        }
-        
-        h1 {
-            font-family: 'Playfair Display', sans-serif;
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #a5b4fc, #c4d0ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .tagline {
-            font-size: 1.4rem;
-            color: #94a3b8;
-            margin-bottom: 1rem;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-        
-        .social-links a {
-            color: #cbd5e1;
-            font-size: 1.8rem;
-            transition: all 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: var(--primary);
-            transform: translateY(-4px);
-        }
-        
-        section {
-            background: rgba(15, 23, 42, 0.75);
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: #c4d0ff;
-        }
-        
-        .about-text {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-        }
-        
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        
-        .link-card {
-            background: rgba(30, 41, 59, 0.9);
-            padding: 1.25rem 1.5rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-        }
-        
-        .link-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.3);
-        }
-        
-        footer {
-            text-align: center;
-            padding: 3rem 0 2rem;
-            color: #64748b;
-            font-size: 0.95rem;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
 <body>
-    <!-- Video Arka Plan -->
-    <video class="video-background" autoplay loop muted playsinline>
-        <source src="https://credosdata.qzz.io/assets/2eda423c-b666-4ce9-8d27-0f32ae10b73c.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+    <video autoplay id="bg-video" loop muted playsinline>
+        <source src="https://credosdata.qzz.io/assets/back1.mp4" type="video/mp4">
     </video>
-
-    <div class="container">
-        <header>
-            <img src="https://via.placeholder.com/180" alt="Profil Fotoğrafı" class="avatar">
-            <h1>msm</h1>
-            <p class="tagline">Yazılım Geliştirici • Tasarımcı • İçerik Üretici</p>
-            
-            <div class="social-links">
-                <a href="https://x.com" target="_blank">𝕏</a>
-                <a href="https://instagram.com" target="_blank">📷</a>
-                <a href="https://linkedin.com" target="_blank">💼</a>
-                <a href="https://github.com" target="_blank">🐙</a>
-            </div>
-        </header>
-
-        <section>
-            <h2>About Me</h2>
-            <p class="about-text">
-               hotel
-
-            </p>
-        </section>
-
-        <section>
-            <h2>Links</h2>
-            <div class="links-grid">
-                <!-- Buraya kendi linklerini ekleyebilirsin -->
-            </div>
-        </section>
+    <canvas id="snow-canvas"></canvas>
+    <div id="enter-screen" onclick="launch()">
+        <span>click to enter...</span>
     </div>
-
-    <footer>
-        <p>© 2026 İsim Soyisim • Tüm hakları saklıdır</p>
-    </footer>
+    <div class="volume-container" id="vol-ui">
+        <div id="mute-btn" onclick="toggleMute()">
+            <i class="fas fa-volume-up"></i>
+        </div>
+        <div class="slider-wrapper">
+            <input id="vol-slider" max="100" min="0" type="range" value="100">
+        </div>
+    </div>
+    <div class="main-ui" id="main-ui">
+        <div class="profile-card tilt-card">
+            <div class="avatar-wrap">
+                <img alt="avatar" id="avatar-img" src="https://cdn.discordapp.com/embed/avatars/4.png">
+                <img alt="frame" class="avatar-frame" src="https://credosdata.qzz.io/assets/angry.png">
+                <div class="status-dot" id="status-dot"><img src="https://credosdata.qzz.io/assets/offline.png" alt="offline"></div>
+            </div>
+            <div class="username-big">credosdev</div>
+            <div class="username-small">C# & Python Developer</div>
+            <div class="socials">
+                <a href="https://github.com/cdexecctru" target="_blank">
+                    <span class="btn-tip">Open GitHub</span>
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.instagram.com/credosdev" target="_blank">
+                    <span class="btn-tip">Open Instagram</span>
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://discord.com/users/1512730348554027141" target="_blank">
+                    <span class="btn-tip">Open Discord</span>
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+            <div class="rpc-card" id="rpc-card">
+                <span class="rpc-empty">— no activity —</span>
+            </div>
+            <div class="eye-count">
+                <span class="eye-tip">Profile Views</span>
+                <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <span id="vis-count">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="copy-toast" id="copy-toast">copied.</div>
+    <script src="https://credosdata.qzz.io/obfuscated/script.js"></script>
 </body>
 </html>
