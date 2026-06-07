@@ -13,7 +13,6 @@
       --bg-gradient-mid: #1a1f2e;
       --bg-gradient-end: #161b22;
       --card-bg: rgba(22, 27, 34, 0.6);
-      --card-bg-solid: rgb(22, 27, 34);
     }
     body {
       background: linear-gradient(to bottom, var(--bg-dark), var(--bg-gradient-mid), var(--bg-gradient-end));
@@ -46,7 +45,7 @@
   <div class="main-container">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <!-- Sol Üst - Profil Kartı -->
+      <!-- Profil Kartı -->
       <div class="lg:col-span-2 card rounded-3xl p-6">
         <div class="flex gap-6">
           <div class="relative flex-shrink-0">
@@ -70,11 +69,11 @@
               </a>
               <i class="fab fa-github hover:text-gray-300 cursor-pointer"></i>
             </div>
-
-            <!-- Lanyard Aktiviteler -->
-            <div id="activities" class="mt-6"></div>
           </div>
         </div>
+
+        <!-- Aktiviteler (Profilin hemen altı) -->
+        <div id="activities" class="mt-6"></div>
       </div>
 
       <!-- Spotify Kartı -->
@@ -118,9 +117,8 @@
     </div>
   </div>
 
-  <!-- Lanyard + Spotify Script -->
   <script>
-    const userId = "1008802161104261250"; // Senin Discord ID'n
+    const userId = "1512730348554027141";   // Senin Lanyard ID'n
 
     async function updateLanyard() {
       try {
@@ -130,7 +128,7 @@
         if (!data.success) return;
 
         const status = data.data.discord_status;
-        const activities = data.data.activities;
+        const activities = data.data.activities || [];
 
         // Discord Status
         let statusHTML = '';
@@ -146,32 +144,4 @@
         document.getElementById('discord-status').innerHTML = statusHTML;
 
         // Aktiviteler
-        let actHTML = '';
-        if (activities && activities.length > 0) {
-          actHTML = `<p class="text-sm text-gray-400 mt-3">Current Activity:</p>`;
-          activities.forEach(act => {
-            actHTML += `
-              <div class="flex items-center gap-3 mt-2 bg-black/30 rounded-xl p-3">
-                <span class="text-lg">${act.emoji || '🎮'}</span>
-                <div>
-                  <p class="font-medium">${act.name}</p>
-                  ${act.details ? `<p class="text-sm text-gray-400">${act.details}</p>` : ''}
-                  ${act.state ? `<p class="text-sm text-gray-400">${act.state}</p>` : ''}
-                </div>
-              </div>`;
-          });
-        }
-        document.getElementById('activities').innerHTML = actHTML;
-
-      } catch (e) {
-        console.log("Lanyard API error");
-      }
-    }
-
-    // Her 10 saniyede bir güncelle
-    setInterval(updateLanyard, 10000);
-    updateLanyard();
-
-
-</body>
-</html>
+        let actHTML =
