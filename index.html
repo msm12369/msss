@@ -84,7 +84,7 @@
        
         <div class="mb-6">
           <p class="text-sm text-gray-400">Who am I?</p>
-          <p class="text-lg">i'm <span class="text-pink-400">msm</span> - a guy who likes playing games with his friends</p>
+          <p class="text-lg">i'm <span class="text-cyan-400">msm</span> - a guy who likes playing games with his friends</p>
         </div>
         <div>
           <p class="text-sm text-gray-400 mb-3">My Interests</p>
@@ -103,37 +103,6 @@
     </div>
   </div>
 
-  <!-- Spotify Script (Port 8974) -->
-  <script>
-    const socket = new WebSocket('ws://127.0.0.1:8974/');
-
-    socket.onopen = () => {
-      console.log('✅ Websocket Bağlandı');
-      document.getElementById('spotify-content').innerHTML = `
-        <p class="text-green-400">✅ Bağlantı kuruldu! Şarkı çal...</p>`;
-    };
-
-    socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.title && data.artist) {
-          document.getElementById('spotify-content').innerHTML = `
-            <img src="${data.albumArt || ''}" class="w-40 h-40 rounded-2xl mb-5 shadow-2xl object-cover">
-            <p class="font-bold text-xl">${data.title}</p>
-            <p class="text-gray-400">${data.artist}</p>
-            <div class="w-full max-w-xs bg-gray-700 h-1.5 rounded-full mt-6 overflow-hidden">
-              <div class="bg-green-500 h-1.5 rounded-full transition-all" style="width: ${data.progressPercent || 0}%"></div>
-            </div>
-          `;
-        }
-      } catch (e) {}
-    };
-
-    socket.onerror = () => {
-      document.getElementById('spotify-content').innerHTML = `
-        <p class="text-yellow-400">Websocket bağlanamadı<br>
-        <span class="text-sm">Port 8974 kontrol et</span></p>`;
-    };
-  </script>
+  
 </body>
 </html>
