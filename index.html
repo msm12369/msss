@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     body {
-      background: #2F3E58;
+      background: linear-gradient(to bottom, #2F3E58, #888888);
       font-family: 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
@@ -16,7 +16,7 @@
       justify-content: center;
     }
     .card {
-      background: rgba(35, 45, 68, 0.95);   /* Daha gri ve premium ton */
+      background: rgba(35, 45, 68, 0.95);
       border: 1px solid rgba(255,255,255,0.1);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
@@ -34,7 +34,6 @@
       <!-- Sol Üst - Profil Kartı -->
       <div class="lg:col-span-2 card rounded-3xl p-6">
         <div class="flex gap-6">
-          <!-- Avatar - Yuvarlak ve çerçevesiz -->
           <div class="relative flex-shrink-0">
             <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png"
                  alt="avatar" class="w-32 h-32 rounded-full object-cover">
@@ -60,7 +59,7 @@
         </div>
       </div>
 
-      <!-- Spotify Kartı (Geri getirildi) -->
+      <!-- Spotify Kartı -->
       <div class="card rounded-3xl p-6 flex flex-col">
         <div class="flex items-center justify-between mb-4">
           <p class="text-lg font-semibold flex items-center gap-2">
