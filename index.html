@@ -1,74 +1,146 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width,initial-scale=1" name="viewport">
-    <title>msm</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        html, body {
-            background-color: #000 !important;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>msm * z 1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    .card {
+      background: rgba(30, 30, 46, 0.95);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .avatar {
+      border: 4px solid #ff00aa;
+    }
+  </style>
 </head>
-<body>
-    <video autoplay id="bg-video" loop muted playsinline>
-        <source src="https://credosdata.qzz.io/assets/2eda423c-b666-4ce9-8d27-0f32ae10b73c.mp4">
-    </video>
-    <canvas id="snow-canvas"></canvas>
-    <div id="enter-screen" onclick="launch()">
-        <span>click to enter...</span>
-    </div>
-    <div class="volume-container" id="vol-ui">
-        <div id="mute-btn" onclick="toggleMute()">
-            <i class="fas fa-volume-up"></i>
+<body class="min-h-screen text-white p-6">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Sol Üst - Profil Kartı -->
+    <div class="lg:col-span-2 card rounded-3xl p-6">
+      <div class="flex gap-6">
+        <!-- Avatar -->
+        <div class="relative">
+          <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png" 
+               alt="avatar" class="w-32 h-32 rounded-2xl avatar object-cover">
+          <div class="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs rounded-full px-2 py-1 flex items-center gap-1">
+            <i class="fas fa-circle text-xs"></i>
+          </div>
         </div>
-        <div class="slider-wrapper">
-            <input id="vol-slider" max="100" min="0" type="range" value="100">
+
+        <div class="flex-1">
+          <div class="flex items-center gap-3">
+            <h1 class="text-3xl font-bold">msm * z 1</h1>
+            <span class="text-emerald-400 text-sm">● Çevrimiçi</span>
+          </div>
+          <p class="text-gray-400">@msm • 1 saat önce</p>
+          <p class="mt-3 text-lg">"i once had a grenade but i lost it in the ocean"</p>
+          
+          <div class="flex gap-4 mt-6 text-2xl">
+            <i class="fab fa-discord hover:text-indigo-400 cursor-pointer"></i>
+            <i class="fab fa-spotify hover:text-green-400 cursor-pointer"></i>
+            <i class="fab fa-github hover:text-gray-300 cursor-pointer"></i>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="main-ui" id="main-ui">
-        <div class="profile-card tilt-card">
-           <div class="avatar-wrap">
-                <img alt="avatar" id="avatar-img" src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png">
-                <img alt="frame" class="avatar-frame" src="https://credosdata.qzz.io/assets/ultrakill.png">
-                <div class="status-dot" id="status-dot"><img src="https://credosdata.qzz.io/assets/offline.png" alt="offline"></div>
-            </div>
-            <div class="username-big">msm</div>
-            <div class="username-small">...</div>
-            <div class="socials">
-                <a href="reddit.com/user/Far_Current_3160/" target="_blank">
-                    <span class="btn-tip">Open Reddit</span>
-                    <i class="fab fa-reddit"></i>
-                </a>
-                <a href="https://www.instagram.com/msm61836" target="_blank">
-                    <span class="btn-tip">Open Instagram</span>
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://discord.com/users/1008802161104261250" target="_blank">
-                    <span class="btn-tip">Open Discord</span>
-                    <i class="fab fa-discord"></i>
-                </a>
-            </div>
-            <div class="rpc-card" id="rpc-card">
-                <span class="rpc-empty">— no activity —</span>
-            </div>
-            <div class="eye-count">
-                <span class="eye-tip">Profile Views</span>
-                <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <span id="vis-count">Loading...</span>
-            </div>
+
+    <!-- Sağ Üst - Spotify -->
+    <div class="card rounded-3xl p-6 flex flex-col">
+      <div class="flex items-center justify-between">
+        <p class="text-lg font-semibold">Listening to Spotify</p>
+        <i class="fas fa-music text-green-400"></i>
+      </div>
+      
+      <div class="flex-1 flex flex-col items-center justify-center text-center">
+        <div class="w-20 h-20 bg-gray-700 rounded-2xl flex items-center justify-center mb-4">
+          <i class="fas fa-image text-4xl text-gray-500"></i>
         </div>
+        <p class="font-medium">Not Listening</p>
+        <p class="text-sm text-gray-400">No song currently playing.</p>
+        <div class="text-6xl mt-4 opacity-30">💤</div>
+      </div>
     </div>
-    <div class="copy-toast" id="copy-toast">copied.</div>
-    <script src="https://credosdata.qzz.io/obfuscated/msm.js"></script>
+
+    <!-- Sol Alt - Hakkımda -->
+    <div class="card rounded-3xl p-6">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        About Me 
+        <span class="text-xs bg-purple-600 px-2 py-1 rounded">18</span>
+      </h2>
+      
+      <div class="mb-6">
+        <p class="text-sm text-gray-400">Who am I?</p>
+        <p class="text-lg">i'm <span class="text-pink-400">msm</span> - a 18 year old hobby developer and music enjoyer from ~ -fi | tr</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-gray-400 mb-3">My Interests</p>
+        <p class="text-gray-300">"i love music, no like, i <span class="text-red-400 font-bold">LOVE</span> music". i also enjoy gaming, coding, and wasting (all my) time on the internet :3</p>
+      </div>
+
+      <!-- Interest Grid -->
+      <div class="grid grid-cols-5 gap-2 mt-8">
+        <img src="https://i.imgur.com/2v3fK9p.png" class="rounded-lg">
+        <img src="https://i.imgur.com/8fZ3KzL.jpeg" class="rounded-lg">
+        <img src="https://i.imgur.com/abc123.png" class="rounded-lg">
+        <img src="https://i.imgur.com/xyz456.png" class="rounded-lg">
+        <img src="https://i.imgur.com/def789.png" class="rounded-lg">
+      </div>
+    </div>
+
+    <!-- Sağ Alt - Recent Streams -->
+    <div class="card rounded-3xl p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">Recent Streams</h2>
+        <input type="text" placeholder="Search..." class="bg-gray-800 rounded-full px-4 py-1 text-sm focus:outline-none">
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex gap-3 items-center">
+          <img src="https://i.imgur.com/example1.jpg" class="w-12 h-12 rounded-lg">
+          <div class="flex-1">
+            <p class="font-medium">greedy</p>
+            <p class="text-sm text-gray-400">hope jss, Isaa Corva</p>
+          </div>
+          <div class="text-right text-xs text-gray-400">
+            <p>2:09</p>
+            <p class="text-green-400">1h ago</p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 items-center">
+          <img src="https://i.imgur.com/example2.jpg" class="w-12 h-12 rounded-lg">
+          <div class="flex-1">
+            <p class="font-medium">If U Seek Amy</p>
+            <p class="text-sm text-gray-400">CottontailVA</p>
+          </div>
+          <div class="text-right text-xs text-gray-400">
+            <p>3:32</p>
+            <p class="text-green-400">1h ago</p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 items-center">
+          <img src="https://i.imgur.com/example3.jpg" class="w-12 h-12 rounded-lg">
+          <div class="flex-1">
+            <p class="font-medium">Dimensions</p>
+            <p class="text-sm text-gray-400">YFU Baby</p>
+          </div>
+          <div class="text-right text-xs text-gray-400">
+            <p>3:11</p>
+            <p class="text-green-400">2h ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
