@@ -70,10 +70,9 @@
         </div>
         
         <div id="spotify-content" class="flex-1 flex flex-col items-center justify-center text-center min-h-[220px]">
-          <p class="text-gray-400">Bağlantı deneniyor...</p>
+          <p class="text-gray-400">Bağlantı kuruluyor...</p>
         </div>
       </div>
-
       <!-- Hakkımda -->
       <div class="lg:col-span-3 card rounded-3xl p-6">
         <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -102,40 +101,44 @@
     </div>
   </div>
 
+  <!-- === SPOTIFY WEBSOCKET (Port 8974) === -->
   <script>
-    const wsUrl = 'ws://127.0.0.1:9090/';
-    console.log('Bağlanılıyor:', wsUrl);
-
-    const socket = new WebSocket(wsUrl);
+    const socket = new WebSocket('ws://127.0.0.1:8974/');
 
     socket.onopen = () => {
-      console.log('✅ BAĞLANTI BAŞARILI!');
-      document.getElementById('spotify-content').innerHTML = `<p class="text-green-400">✅ Bağlantı kuruldu! Şimdi şarkı çal</p>`;
+      console.log('✅ Websocket Bağlandı (8974)');
+      document.getElementById('spotify-content').innerHTML = `
+        <p class="text-green-400">✅ Bağlantı kuruldu!<br>Şimdi Spotify'da şarkı çal</p>`;
     };
 
     socket.onmessage = (event) => {
-      console.log('📥 Gelen veri:', event.data);
       try {
         const data = JSON.parse(event.data);
-        if (data.title) {
+
+        if (data.title && data.artist) {
           document.getElementById('spotify-content').innerHTML = `
-            <img src="${data.albumArt || ''}" class="w-40 h-40 rounded-2xl mb-5 shadow-2xl">
+            <img src="${data.albumArt || ''}" 
+                 class="w-40 h-40 rounded-2xl mb-5 shadow-2xl object-cover">
             <p class="font-bold text-xl">${data.title}</p>
             <p class="text-gray-400">${data.artist}</p>
+            
+            <div class="w-full max-w-xs bg-gray-700 h-1.5 rounded-full mt-6 overflow-hidden">
+              <div class="bg-green-500 h-1.5 rounded-full transition-all" 
+                   style="width: ${data.progressPercent || 0}%"></div>
+            </div>
           `;
         }
-      } catch(e) {}
+      } catch (e) {}
     };
 
-    socket.onerror = (err) => {
-      console.error('❌ Hata:', err);
+    socket.onerror = () => {
       document.getElementById('spotify-content').innerHTML = `
-        <p class="text-red-400">Bağlantı kurulamadı<br>
-        <span class="text-sm">Port 9090 ve Endpoint / kontrol et</span></p>`;
+        <p class="text-red-400">Bağlantı hatası<br>
+        <span class="text-sm">Port 8974 doğru mu?</span></p>`;
     };
 
     socket.onclose = () => {
-      console.log('Bağlantı kapandı');
+      setTimeout(() => location.reload(), 5000);
     };
   </script>
 </body>
