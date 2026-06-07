@@ -47,9 +47,9 @@
           <img src="https://i.imgur.com/EpKmdiP.png" 
                alt="banner" class="w-full h-full object-cover opacity-80">
           
-          <div class="absolute top-4 right-4 bg-black/60 border border-white/10 pl-3 pr-1 py-1 rounded-full flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md select-none z-20">
+          <div class="absolute top-4 right-4 bg-black/50 border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md select-none z-20">
             <i class="far fa-eye text-cyan-400"></i>
-            <img src="https://credos.qzz.io/api/counter/msm" alt="views" class="h-6 object-contain pointer-events-none brightness-110">
+            <span id="view-counter" class="font-medium">...</span>
           </div>
         </div>
 
@@ -138,13 +138,42 @@
   </div>
 
   <script>
-    // 1. Ziyaretçi Sayacı Tetikleyicisi (Sadece Sayacı Arka Planda Arttırır)
-    function handleCounter() {
-      const hasVisited = localStorage.getItem('msm_visited');
+    // 1. Ziyaretçi Sayacı (Counter) Mantığı
+    async function handleCounter() {
+      const counterEl = document.getElementById('view-counter');
+      const hasVisited = localStorage.getItem('msm_profile_visited');
+      
+      // CORS engeline takılmamak için popüler ve açık kaynaklı cors-anywhere aracı kullanıldı
+      const proxy = 'https://cors-anywhere.herokuapp.com/';
+      
+      // İstediğin mantık: İlk girişse /up, sonraki girişlerde sadece /msm endpointi çağrılır
+      let targetUrl = 'https://credos.qzz.io/api/counter/msm';
+      
       if (!hasVisited) {
-        const triggerImg = new Image();
-        triggerImg.src = 'https://credos.qzz.io/api/counter/msm/up?' + new Date().getTime();
-        localStorage.setItem('msm_visited', 'true');
+        targetUrl = 'https://credos.qzz.io/api/counter/msm/up';
+        localStorage.setItem('msm_profile_visited', 'true');
+      }
+
+      try {
+        // Doğrudan veya proxy yardımıyla veriyi talep et
+        let response;
+        try {
+          response = await fetch(targetUrl);
+        } catch(e) {
+          // Eğer sunucu tarayıcıyı doğrudan engellerse, isteği proxy üzerinden geçirip kesin sonuç alıyoruz
+          response = await fetch(proxy + targetUrl);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.success && data.result !== undefined) {
+          counterEl.textContent = data.result + " views";
+        } else {
+          counterEl.textContent = "0 views";
+        }
+      } catch (error) {
+        console.error('Sayaç verisi çekilemedi:', error);
+        counterEl.textContent = '---';
       }
     }
 
@@ -178,7 +207,7 @@
             textStatusEl.className = 'text-gray-400 text-sm';
           }
 
-          // Spotify Kontrolü (Sağ taraftaki bağımsız kart)
+          // Spotify Kontrolü
           const spotifyContent = document.getElementById('spotify-content');
           const spotifyHeader = document.getElementById('spotify-header');
 
