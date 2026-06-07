@@ -7,19 +7,32 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
+    :root {
+      color-scheme: dark;
+      --bg-dark: #0d1117;
+      --bg-gradient-mid: #1a1f2e;
+      --bg-gradient-end: #161b22;
+      --card-bg: rgba(22, 27, 34, 0.6);
+      --card-bg-solid: rgb(22, 27, 34);
+      --badge-bg: rgba(25, 31, 41, 0.5);
+      --overlay-bg: rgba(22, 27, 34, 1);
+    }
+
     body {
-      background: linear-gradient(to bottom, #1F2A3F, #2F3E58);
+      background: linear-gradient(to bottom, var(--bg-dark), var(--bg-gradient-mid), var(--bg-gradient-end));
       font-family: 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .card {
-      background: rgba(35, 45, 68, 0.95);
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
+
     .main-container {
       width: 100%;
       max-width: 1100px;
@@ -101,7 +114,6 @@
     </div>
   </div>
 
-  <!-- Spotify Websocket Script -->
 
 </body>
 </html>
