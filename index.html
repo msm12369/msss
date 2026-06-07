@@ -138,37 +138,39 @@
   </div>
 
   <script>
-    // 1. Ziyaretçi Sayacı Yönetimi (CORS Bypassed - JSON Çekici)
-    function handleCounter() {
+    // 1. Canlı Ziyaretçi Sayacı Çekici (CORS Engeli Olmayan Tam Dinamik Çözüm)
+    async function handleCounter() {
       const counterEl = document.getElementById('view-counter');
-      const hasVisited = localStorage.getItem('msm_visited_key');
+      const hasVisited = localStorage.getItem('msm_ultimate_visited');
       
-      // Dinamik bir script etiketi oluşturarak tarayıcının güvenlik duvarını (CORS) tamamen deliyoruz
-      const script = document.createElement('script');
+      // Allorigins, sunucunun CORS kısıtlamasını tamamen kaldırıp JSON verisini doğrudan tarayıcıya paslar
+      const bypassProvider = 'https://api.allorigins.win/get?url=';
       
-      // İstediğin kural: Localstorage yoksa /up endpoint'ine gider, varsa direkt /msm endpoint'ine gider
+      let targetApi = 'https://credos.qzz.io/api/counter/msm';
+      
+      // İstediğin mantık: Localstorage yoksa /up ile arttır ve sonucu al, varsa direkt /msm'den çek
       if (!hasVisited) {
-        script.src = 'https://credos.qzz.io/api/counter/msm/up?callback=counterResponse';
-        localStorage.setItem('msm_visited_key', 'true');
-      } else {
-        script.src = 'https://credos.qzz.io/api/counter/msm?callback=counterResponse';
+        targetApi = 'https://credos.qzz.io/api/counter/msm/up';
+        localStorage.setItem('msm_ultimate_visited', 'true');
       }
-      
-      // Hata durumunda (eğer API çökerse) arayüzün bozulmaması için güvenli çıkış
-      script.onerror = function() {
-        counterEl.textContent = "0";
-      };
 
-      document.body.appendChild(script);
-    }
-
-    // API'den dönen ham veriyi yakalayıp doğrudan ekrana basan fonksiyon
-    function counterResponse(data) {
-      const counterEl = document.getElementById('view-counter');
-      if (data && data.result !== undefined) {
-        counterEl.textContent = data.result;
-      } else {
-        counterEl.textContent = "0";
+      try {
+        // İsteği bypass tüneli üzerinden gönderiyoruz
+        const response = await fetch(bypassProvider + encodeURIComponent(targetApi));
+        const outerData = await response.json();
+        
+        // Gelen wrapper objesinden senin API'nin saf string/JSON çıktısını süzüyoruz
+        const realJson = JSON.parse(outerData.contents);
+        
+        // Tam istediğin yer: JSON içindeki "result" değerini bulup ekrana basıyoruz
+        if (realJson && realJson.result !== undefined) {
+          counterEl.textContent = realJson.result;
+        } else {
+          counterEl.textContent = "1";
+        }
+      } catch (error) {
+        console.error('Sayaç verisi parse edilemedi:', error);
+        counterEl.textContent = "Error";
       }
     }
 
@@ -266,7 +268,7 @@
       }
     }
 
-    // Fonksiyonları ateşle
+    // Başlatıcılar
     handleCounter();
     fetchLanyardData();
     setInterval(fetchLanyardData, 10000);
