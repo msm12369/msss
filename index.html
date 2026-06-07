@@ -44,10 +44,10 @@
       <div class="lg:col-span-2 card rounded-3xl p-6">
         <div class="flex gap-6">
           
-          <div class="relative flex-shrink-0">
+          <div class="relative flex-shrink-0 w-32 h-32">
             <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png"
-                 alt="avatar" class="w-32 h-32 rounded-full object-cover">
-            <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full border border-zinc-800 bg-[#0d1117] flex items-center justify-center overflow-hidden">
+                 alt="avatar" class="w-full h-full rounded-full object-cover">
+            <div class="absolute bottom-1 right-1 w-7 h-7 rounded-full border border-zinc-800 bg-[#0d1117] flex items-center justify-center overflow-hidden z-10 shadow-md">
               <img id="status-icon" src="https://credosdata.qzz.io/assets/offline.png" alt="status" class="w-full h-full object-cover">
             </div>
           </div>
@@ -121,15 +121,15 @@
         if (result.success && result.data) {
           const data = result.data;
           
-          // 1. Statü Belirleme mantığı
+          // 1. Statü Belirleme Alanı
           const status = data.discord_status || 'offline';
           const statusIconEl = document.getElementById('status-icon');
           const textStatusEl = document.getElementById('text-status');
           
-          // API'den gelen dnd, idle, online, offline durumlarına göre endpoint oluşturuluyor
+          // API'den gelen değere göre görsel url'i atanıyor
           statusIconEl.src = `https://credosdata.qzz.io/assets/${status}.png`;
           
-          // İsim yanındaki text durumunu da güncelleyelim
+          // İsim yanındaki küçük metin durumunu güncelleme
           if (status === 'online') {
             textStatusEl.textContent = '● Online';
             textStatusEl.className = 'text-emerald-400 text-sm';
@@ -144,7 +144,7 @@
             textStatusEl.className = 'text-gray-400 text-sm';
           }
 
-          // 2. Spotify Verisi Güncelleme alanı (Bonus)
+          // 2. Spotify Durumu Güncelleme Alanı
           const spotifyContent = document.getElementById('spotify-content');
           if (data.listening_to_spotify && data.spotify) {
             spotifyContent.innerHTML = `
@@ -161,7 +161,7 @@
       }
     }
 
-    // Sayfa açıldığında çalıştır ve her 15 saniyede bir veriyi yenile
+    // İlk yüklemede çalıştır ve her 15 saniyede bir veriyi tazele
     fetchLanyardData();
     setInterval(fetchLanyardData, 15000);
   </script>
