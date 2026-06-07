@@ -14,8 +14,6 @@
       --bg-gradient-end: #161b22;
       --card-bg: rgba(22, 27, 34, 0.6);
       --card-bg-solid: rgb(22, 27, 34);
-      --badge-bg: rgba(25, 31, 41, 0.5);
-      --overlay-bg: rgba(22, 27, 34, 1);
     }
     body {
       background: linear-gradient(to bottom, var(--bg-dark), var(--bg-gradient-mid), var(--bg-gradient-end));
@@ -35,6 +33,13 @@
       max-width: 1100px;
       padding: 20px;
     }
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
   </style>
 </head>
 <body>
@@ -51,7 +56,7 @@
           <div class="flex-1">
             <div class="flex items-center gap-3">
               <h1 class="text-3xl font-bold">msm</h1>
-              <span class="text-emerald-400 text-sm">● Online</span>
+              <span id="discord-status" class="text-sm flex items-center"></span>
             </div>
             <p class="text-gray-400">@msm</p>
             <p class="mt-3 text-lg">"..."</p>
@@ -65,6 +70,9 @@
               </a>
               <i class="fab fa-github hover:text-gray-300 cursor-pointer"></i>
             </div>
+
+            <!-- Lanyard Aktiviteler -->
+            <div id="activities" class="mt-6"></div>
           </div>
         </div>
       </div>
@@ -109,6 +117,60 @@
 
     </div>
   </div>
+
+  <!-- Lanyard + Spotify Script -->
+  <script>
+    const userId = "1008802161104261250"; // Senin Discord ID'n
+
+    async function updateLanyard() {
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+        const data = await res.json();
+
+        if (!data.success) return;
+
+        const status = data.data.discord_status;
+        const activities = data.data.activities;
+
+        // Discord Status
+        let statusHTML = '';
+        if (status === "online") {
+          statusHTML = `<span class="status-dot bg-green-500"></span><span class="text-green-400">Online</span>`;
+        } else if (status === "idle") {
+          statusHTML = `<span class="status-dot bg-yellow-500"></span><span class="text-yellow-400">Idle</span>`;
+        } else if (status === "dnd") {
+          statusHTML = `<span class="status-dot bg-red-500"></span><span class="text-red-400">Do Not Disturb</span>`;
+        } else {
+          statusHTML = `<span class="status-dot bg-gray-500"></span><span class="text-gray-400">Offline</span>`;
+        }
+        document.getElementById('discord-status').innerHTML = statusHTML;
+
+        // Aktiviteler
+        let actHTML = '';
+        if (activities && activities.length > 0) {
+          actHTML = `<p class="text-sm text-gray-400 mt-3">Current Activity:</p>`;
+          activities.forEach(act => {
+            actHTML += `
+              <div class="flex items-center gap-3 mt-2 bg-black/30 rounded-xl p-3">
+                <span class="text-lg">${act.emoji || '🎮'}</span>
+                <div>
+                  <p class="font-medium">${act.name}</p>
+                  ${act.details ? `<p class="text-sm text-gray-400">${act.details}</p>` : ''}
+                  ${act.state ? `<p class="text-sm text-gray-400">${act.state}</p>` : ''}
+                </div>
+              </div>`;
+          });
+        }
+        document.getElementById('activities').innerHTML = actHTML;
+
+      } catch (e) {
+        console.log("Lanyard API error");
+      }
+    }
+
+    // Her 10 saniyede bir güncelle
+    setInterval(updateLanyard, 10000);
+    updateLanyard();
 
 
 </body>
