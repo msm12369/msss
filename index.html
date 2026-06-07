@@ -235,3 +235,45 @@
             const activeGame = validActivities[0];
             
             let assetImageHTML = `<div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center border border-white/5"><i class="fas fa-gamepad text-lg text-gray-400"></i></div>`;
+            
+            if (activeGame.assets && activeGame.assets.large_image) {
+              let imageUrl = '';
+              if (activeGame.assets.large_image.startsWith('mp:external')) {
+                imageUrl = `https://media.discordapp.net/${activeGame.assets.large_image.replace('mp:external/', '')}`;
+              } else {
+                imageUrl = `https://cdn.discordapp.com/app-assets/${activeGame.application_id}/${activeGame.assets.large_image}.png`;
+              }
+              assetImageHTML = `<img src="${imageUrl}" class="w-12 h-12 rounded-xl object-cover border border-white/5" alt="Activity Asset">`;
+            }
+
+            const detailsText = activeGame.details || 'Playing';
+            const stateText = activeGame.state ? `<p class="text-xs text-gray-500 line-clamp-1">${activeGame.state}</p>` : '';
+
+            activityDetail.innerHTML = `
+              ${assetImageHTML}
+              <div class="flex-1 min-w-0 text-left">
+                <p class="text-sm font-semibold text-white truncate">${activeGame.name}</p>
+                <p class="text-xs text-gray-400 truncate">${detailsText}</p>
+                ${stateText}
+              </div>
+            `;
+          } else {
+            activityDetail.innerHTML = `
+              <div class="w-full py-1 text-center flex items-center justify-center gap-2 text-gray-500 text-sm">
+                <i class="fas fa-moon opacity-60"></i>
+                <span>No activity</span>
+              </div>
+            `;
+          }
+        }
+      } catch (error) {
+        console.error('Lanyard verisi çekilirken hata oluştu:', error);
+      }
+    }
+
+    handleCounter();
+    fetchLanyardData();
+    setInterval(fetchLanyardData, 10000);
+  </script>
+</body>
+</html>
