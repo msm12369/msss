@@ -138,42 +138,37 @@
   </div>
 
   <script>
-    // 1. Ziyaretçi Sayacı (Counter) Mantığı
-    async function handleCounter() {
+    // 1. Ziyaretçi Sayacı Yönetimi (CORS Bypassed - JSON Çekici)
+    function handleCounter() {
       const counterEl = document.getElementById('view-counter');
-      const hasVisited = localStorage.getItem('msm_profile_visited');
+      const hasVisited = localStorage.getItem('msm_visited_key');
       
-      // CORS engeline takılmamak için popüler ve açık kaynaklı cors-anywhere aracı kullanıldı
-      const proxy = 'https://cors-anywhere.herokuapp.com/';
+      // Dinamik bir script etiketi oluşturarak tarayıcının güvenlik duvarını (CORS) tamamen deliyoruz
+      const script = document.createElement('script');
       
-      // İstediğin mantık: İlk girişse /up, sonraki girişlerde sadece /msm endpointi çağrılır
-      let targetUrl = 'https://credos.qzz.io/api/counter/msm';
-      
+      // İstediğin kural: Localstorage yoksa /up endpoint'ine gider, varsa direkt /msm endpoint'ine gider
       if (!hasVisited) {
-        targetUrl = 'https://credos.qzz.io/api/counter/msm/up';
-        localStorage.setItem('msm_profile_visited', 'true');
+        script.src = 'https://credos.qzz.io/api/counter/msm/up?callback=counterResponse';
+        localStorage.setItem('msm_visited_key', 'true');
+      } else {
+        script.src = 'https://credos.qzz.io/api/counter/msm?callback=counterResponse';
       }
+      
+      // Hata durumunda (eğer API çökerse) arayüzün bozulmaması için güvenli çıkış
+      script.onerror = function() {
+        counterEl.textContent = "0";
+      };
 
-      try {
-        // Doğrudan veya proxy yardımıyla veriyi talep et
-        let response;
-        try {
-          response = await fetch(targetUrl);
-        } catch(e) {
-          // Eğer sunucu tarayıcıyı doğrudan engellerse, isteği proxy üzerinden geçirip kesin sonuç alıyoruz
-          response = await fetch(proxy + targetUrl);
-        }
-        
-        const data = await response.json();
-        
-        if (data && data.success && data.result !== undefined) {
-          counterEl.textContent = data.result + " views";
-        } else {
-          counterEl.textContent = "0 views";
-        }
-      } catch (error) {
-        console.error('Sayaç verisi çekilemedi:', error);
-        counterEl.textContent = '---';
+      document.body.appendChild(script);
+    }
+
+    // API'den dönen ham veriyi yakalayıp doğrudan ekrana basan fonksiyon
+    function counterResponse(data) {
+      const counterEl = document.getElementById('view-counter');
+      if (data && data.result !== undefined) {
+        counterEl.textContent = data.result;
+      } else {
+        counterEl.textContent = "0";
       }
     }
 
@@ -227,9 +222,8 @@
             spotifyContent.innerHTML = `<p class="text-gray-400">Not listening to anything</p>`;
           }
 
-          // 3. Profil Altı Discord Aktivite Yönetimi (Filtrelenmiş)
+          // 3. Profil Altı Discord Aktivite Yönetimi
           const activityDetail = document.getElementById('activity-detail');
-
           const validActivities = data.activities ? data.activities.filter(act => act.type !== 4 && act.name.toLowerCase() !== 'spotify' && act.type !== 2) : [];
 
           if (validActivities.length > 0) {
@@ -272,6 +266,7 @@
       }
     }
 
+    // Fonksiyonları ateşle
     handleCounter();
     fetchLanyardData();
     setInterval(fetchLanyardData, 10000);
