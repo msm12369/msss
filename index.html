@@ -8,94 +8,105 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     body {
-      background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
+      background: #0a0a0a; /* Tam siyah arka plan */
       font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .card {
-      background: rgba(30, 30, 46, 0.95);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(20, 20, 30, 0.95);
+      border: 1px solid rgba(255,255,255,0.08);
     }
     .avatar {
       border: 4px solid #ff00aa;
     }
+    .main-container {
+      width: 100%;
+      max-width: 1100px;
+      padding: 20px;
+    }
   </style>
 </head>
-<body class="min-h-screen text-white p-6">
-  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+<body>
+  <div class="main-container">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-    <!-- Sol Üst - Profil Kartı -->
-    <div class="lg:col-span-2 card rounded-3xl p-6">
-      <div class="flex gap-6">
-        <!-- Avatar -->
-        <div class="relative">
-          <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png" 
-               alt="avatar" class="w-32 h-32 rounded-2xl avatar object-cover">
-          <div class="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs rounded-full px-2 py-1 flex items-center gap-1">
-            <i class="fas fa-circle text-xs"></i>
+      <!-- Sol Üst - Profil Kartı -->
+      <div class="lg:col-span-2 card rounded-3xl p-6">
+        <div class="flex gap-6">
+          <!-- Avatar -->
+          <div class="relative flex-shrink-0">
+            <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png" 
+                 alt="avatar" class="w-32 h-32 rounded-2xl avatar object-cover">
+            <div class="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs rounded-full px-2 py-1 flex items-center gap-1">
+              <i class="fas fa-circle text-xs"></i>
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <div class="flex items-center gap-3">
+              <h1 class="text-3xl font-bold">msm</h1>
+              <span class="text-emerald-400 text-sm">● Çevrimiçi</span>
+            </div>
+            <p class="text-gray-400">@msm • 1 saat önce</p>
+            <p class="mt-3 text-lg">"i once had a grenade but i lost it in the ocean"</p>
+            
+            <div class="flex gap-4 mt-6 text-2xl">
+              <i class="fab fa-discord hover:text-indigo-400 cursor-pointer"></i>
+              <i class="fab fa-spotify hover:text-green-400 cursor-pointer"></i>
+              <i class="fab fa-github hover:text-gray-300 cursor-pointer"></i>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="flex-1">
-          <div class="flex items-center gap-3">
-            <h1 class="text-3xl font-bold">msm</h1>
-            <span class="text-emerald-400 text-sm">● Çevrimiçi</span>
+      <!-- Sağ Üst - Spotify -->
+      <div class="card rounded-3xl p-6 flex flex-col">
+        <div class="flex items-center justify-between">
+          <p class="text-lg font-semibold">Listening to Spotify</p>
+          <i class="fas fa-music text-green-400"></i>
+        </div>
+        
+        <div class="flex-1 flex flex-col items-center justify-center text-center">
+          <div class="w-20 h-20 bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
+            <i class="fas fa-image text-4xl text-gray-500"></i>
           </div>
-          <p class="text-gray-400">@msm • 1 saat önce</p>
-          <p class="mt-3 text-lg">"i once had a grenade but i lost it in the ocean"</p>
-          
-          <div class="flex gap-4 mt-6 text-2xl">
-            <i class="fab fa-discord hover:text-indigo-400 cursor-pointer"></i>
-            <i class="fab fa-spotify hover:text-green-400 cursor-pointer"></i>
-            <i class="fab fa-github hover:text-gray-300 cursor-pointer"></i>
-          </div>
+          <p class="font-medium">Not Listening</p>
+          <p class="text-sm text-gray-400">No song currently playing.</p>
+          <div class="text-6xl mt-4 opacity-30">💤</div>
         </div>
       </div>
-    </div>
 
-    <!-- Sağ Üst - Spotify -->
-    <div class="card rounded-3xl p-6 flex flex-col">
-      <div class="flex items-center justify-between">
-        <p class="text-lg font-semibold">Listening to Spotify</p>
-        <i class="fas fa-music text-green-400"></i>
-      </div>
-      
-      <div class="flex-1 flex flex-col items-center justify-center text-center">
-        <div class="w-20 h-20 bg-gray-700 rounded-2xl flex items-center justify-center mb-4">
-          <i class="fas fa-image text-4xl text-gray-500"></i>
+      <!-- Hakkımda -->
+      <div class="lg:col-span-3 card rounded-3xl p-6">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+          About Me 
+          <span class="text-xs bg-purple-600 px-2 py-1 rounded">18</span>
+        </h2>
+        
+        <div class="mb-6">
+          <p class="text-sm text-gray-400">Who am I?</p>
+          <p class="text-lg">i'm <span class="text-pink-400">msm</span> - a 18 year old hobby developer and music enjoyer from ~ -fi | tr</p>
         </div>
-        <p class="font-medium">Not Listening</p>
-        <p class="text-sm text-gray-400">No song currently playing.</p>
-        <div class="text-6xl mt-4 opacity-30">💤</div>
+
+        <div>
+          <p class="text-sm text-gray-400 mb-3">My Interests</p>
+          <p class="text-gray-300">"i love music, no like, i <span class="text-red-400 font-bold">LOVE</span> music". i also enjoy gaming, coding, and wasting (all my) time on the internet :3</p>
+        </div>
+
+        <!-- Interest Grid -->
+        <div class="grid grid-cols-5 gap-3 mt-8">
+          <img src="https://i.imgur.com/2v3fK9p.png" class="rounded-lg hover:scale-105 transition-transform">
+          <img src="https://i.imgur.com/8fZ3KzL.jpeg" class="rounded-lg hover:scale-105 transition-transform">
+          <img src="https://i.imgur.com/abc123.png" class="rounded-lg hover:scale-105 transition-transform">
+          <img src="https://i.imgur.com/xyz456.png" class="rounded-lg hover:scale-105 transition-transform">
+          <img src="https://i.imgur.com/def789.png" class="rounded-lg hover:scale-105 transition-transform">
+        </div>
       </div>
+
     </div>
-
-    <!-- Hakkımda (Şimdi daha geniş) -->
-    <div class="lg:col-span-3 card rounded-3xl p-6">
-      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-        About Me 
-        <span class="text-xs bg-purple-600 px-2 py-1 rounded">18</span>
-      </h2>
-      
-      <div class="mb-6">
-        <p class="text-sm text-gray-400">Who am I?</p>
-        <p class="text-lg">i'm <span class="text-pink-400">msm</span> - a 18 year old hobby developer and music enjoyer from ~ -fi | tr</p>
-      </div>
-
-      <div>
-        <p class="text-sm text-gray-400 mb-3">My Interests</p>
-        <p class="text-gray-300">"i love music, no like, i <span class="text-red-400 font-bold">LOVE</span> music". i also enjoy gaming, coding, and wasting (all my) time on the internet :3</p>
-      </div>
-
-      <!-- Interest Grid -->
-      <div class="grid grid-cols-5 gap-2 mt-8">
-        <img src="https://i.imgur.com/2v3fK9p.png" class="rounded-lg">
-        <img src="https://i.imgur.com/8fZ3KzL.jpeg" class="rounded-lg">
-        <img src="https://i.imgur.com/abc123.png" class="rounded-lg">
-        <img src="https://i.imgur.com/xyz456.png" class="rounded-lg">
-        <img src="https://i.imgur.com/def789.png" class="rounded-lg">
-      </div>
-    </div>
-
   </div>
 </body>
 </html>
