@@ -126,10 +126,8 @@
           const statusIconEl = document.getElementById('status-icon');
           const textStatusEl = document.getElementById('text-status');
           
-          // API'den gelen değere göre görsel url'i atanıyor
           statusIconEl.src = `https://credosdata.qzz.io/assets/${status}.png`;
           
-          // İsim yanındaki küçük metin durumunu güncelleme
           if (status === 'online') {
             textStatusEl.textContent = '● Online';
             textStatusEl.className = 'text-emerald-400 text-sm';
@@ -147,9 +145,14 @@
           // 2. Spotify Durumu Güncelleme Alanı
           const spotifyContent = document.getElementById('spotify-content');
           if (data.listening_to_spotify && data.spotify) {
+            
+            // Şarkı isminin son kelimesini (parçasını) alıyoruz
+            const fullTrackName = data.spotify.track;
+            const lastWordOfTrack = fullTrackName.trim().split(' ').pop();
+
             spotifyContent.innerHTML = `
               <img src="${data.spotify.album_art_url}" class="w-24 h-24 rounded-xl shadow-lg mb-3 object-cover animate-pulse" alt="Album Art">
-              <p class="font-semibold text-white text-base line-clamp-1">${data.spotify.track}</p>
+              <p class="font-semibold text-white text-base line-clamp-1">${lastWordOfTrack}</p>
               <p class="text-sm text-gray-400 line-clamp-1">by ${data.spotify.artist}</p>
             `;
           } else {
@@ -161,7 +164,6 @@
       }
     }
 
-    // İlk yüklemede çalıştır ve her 15 saniyede bir veriyi tazele
     fetchLanyardData();
     setInterval(fetchLanyardData, 15000);
   </script>
