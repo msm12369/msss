@@ -13,6 +13,9 @@
       --bg-gradient-mid: #1a1f2e;
       --bg-gradient-end: #161b22;
       --card-bg: rgba(22, 27, 34, 0.6);
+      --card-bg-solid: rgb(22, 27, 34);
+      --badge-bg: rgba(25, 31, 41, 0.5);
+      --overlay-bg: rgba(22, 27, 34, 1);
     }
     body {
       background: linear-gradient(to bottom, var(--bg-dark), var(--bg-gradient-mid), var(--bg-gradient-end));
@@ -32,20 +35,13 @@
       max-width: 1100px;
       padding: 20px;
     }
-    .status-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 6px;
-    }
   </style>
 </head>
 <body>
   <div class="main-container">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <!-- Profil Kartı -->
+      <!-- Sol Üst - Profil Kartı -->
       <div class="lg:col-span-2 card rounded-3xl p-6">
         <div class="flex gap-6">
           <div class="relative flex-shrink-0">
@@ -55,7 +51,7 @@
           <div class="flex-1">
             <div class="flex items-center gap-3">
               <h1 class="text-3xl font-bold">msm</h1>
-              <span id="discord-status" class="text-sm flex items-center"></span>
+              <span class="text-emerald-400 text-sm">● Online</span>
             </div>
             <p class="text-gray-400">@msm</p>
             <p class="mt-3 text-lg">"..."</p>
@@ -71,9 +67,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Aktiviteler (Profilin hemen altı) -->
-        <div id="activities" class="mt-6"></div>
       </div>
 
       <!-- Spotify Kartı -->
@@ -117,31 +110,6 @@
     </div>
   </div>
 
-  <script>
-    const userId = "1512730348554027141";   // Senin Lanyard ID'n
 
-    async function updateLanyard() {
-      try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${1512730348554027141}`);
-        const data = await res.json();
-
-        if (!data.success) return;
-
-        const status = data.data.discord_status;
-        const activities = data.data.activities || [];
-
-        // Discord Status
-        let statusHTML = '';
-        if (status === "online") {
-          statusHTML = `<span class="status-dot bg-green-500"></span><span class="text-green-400">Online</span>`;
-        } else if (status === "idle") {
-          statusHTML = `<span class="status-dot bg-yellow-500"></span><span class="text-yellow-400">Idle</span>`;
-        } else if (status === "dnd") {
-          statusHTML = `<span class="status-dot bg-red-500"></span><span class="text-red-400">Do Not Disturb</span>`;
-        } else {
-          statusHTML = `<span class="status-dot bg-gray-500"></span><span class="text-gray-400">Offline</span>`;
-        }
-        document.getElementById('discord-status').innerHTML = statusHTML;
-
-        // Aktiviteler
-        let actHTML =
+</body>
+</html>
