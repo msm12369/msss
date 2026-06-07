@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     body {
-      background: #0f0f1a;           /* Daha güzel koyu gri-mavi ton */
+      background: #2F3E58;
       font-family: 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
@@ -16,12 +16,9 @@
       justify-content: center;
     }
     .card {
-      background: rgba(25, 25, 40, 0.95);   /* Yumuşak koyu gri */
+      background: rgba(25, 25, 40, 0.95);
       border: 1px solid rgba(255,255,255,0.1);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    .avatar {
-      border: 4px solid #ff00aa;
     }
     .main-container {
       width: 100%;
@@ -37,12 +34,10 @@
       <!-- Sol Üst - Profil Kartı -->
       <div class="lg:col-span-2 card rounded-3xl p-6">
         <div class="flex gap-6">
+          <!-- Avatar - Yuvarlak ve çerçevesiz -->
           <div class="relative flex-shrink-0">
             <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png"
-                 alt="avatar" class="w-32 h-32 rounded-2xl avatar object-cover">
-            <div class="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs rounded-full px-2 py-1 flex items-center gap-1">
-              <i class="fas fa-circle text-xs"></i>
-            </div>
+                 alt="avatar" class="w-32 h-32 rounded-full object-cover">
           </div>
           <div class="flex-1">
             <div class="flex items-center gap-3">
@@ -51,27 +46,20 @@
             </div>
             <p class="text-gray-400">@msm</p>
             <p class="mt-3 text-lg">"..."</p>
-           
+          
             <div class="flex gap-4 mt-6 text-2xl">
-              <i class="fab fa-discord hover:text-indigo-400 cursor-pointer"></i>
-              <i class="fab fa-spotify hover:text-green-400 cursor-pointer"></i>
+              <!-- Discord -->
+              <a href="https://discord.com/users/1008802161104261250" target="_blank">
+                <i class="fab fa-discord hover:text-indigo-400 cursor-pointer"></i>
+              </a>
+              <!-- Reddit -->
+              <a href="https://reddit.com/user/Far_Current_3160/" target="_blank">
+                <i class="fab fa-reddit-alien hover:text-orange-400 cursor-pointer"></i>
+              </a>
+              <!-- GitHub (eski yerinde kaldı, istersen söyle kaldırırım) -->
               <i class="fab fa-github hover:text-gray-300 cursor-pointer"></i>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Spotify Kartı -->
-      <div class="card rounded-3xl p-6 flex flex-col">
-        <div class="flex items-center justify-between mb-4">
-          <p class="text-lg font-semibold flex items-center gap-2">
-            <i class="fab fa-spotify text-green-400"></i>
-            Listening to Spotify
-          </p>
-        </div>
-        
-        <div id="spotify-content" class="flex-1 flex flex-col items-center justify-center text-center min-h-[220px]">
-          <p class="text-gray-400">Connecting To Spotify...</p>
         </div>
       </div>
 
@@ -81,7 +69,7 @@
           About Me
           <span class="text-xs bg-purple-600 px-2 py-1 rounded">18</span>
         </h2>
-       
+      
         <div class="mb-6">
           <p class="text-sm text-gray-400">Who am I?</p>
           <p class="text-lg">i'm <span class="text-cyan-400">msm</span> - a guy who likes playing games with his friends</p>
@@ -90,7 +78,7 @@
           <p class="text-sm text-gray-400 mb-3">My Interests</p>
           <p class="text-gray-300">"i like listening some music, i also enjoy gaming and wasting my time on the internet</p>
         </div>
-        
+       
         <div class="grid grid-cols-5 gap-3 mt-8">
           <img src="https://imgur.com/a/6NCHQ6o" class="rounded-lg hover:scale-105 transition-transform">
           <img src="https://imgur.com/a/QVBSgWo" class="rounded-lg hover:scale-105 transition-transform">
@@ -102,7 +90,5 @@
 
     </div>
   </div>
-
-  
 </body>
 </html>
