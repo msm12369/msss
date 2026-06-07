@@ -47,9 +47,9 @@
           <img src="https://i.imgur.com/EpKmdiP.png" 
                alt="banner" class="w-full h-full object-cover opacity-80">
           
-          <div class="absolute top-4 right-4 bg-black/50 border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md select-none z-20">
+          <div class="absolute top-4 right-4 bg-black/60 border border-white/10 pl-3 pr-1 py-1 rounded-full flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md select-none z-20">
             <i class="far fa-eye text-cyan-400"></i>
-            <span id="view-counter" class="font-medium">...</span>
+            <img src="https://credos.qzz.io/api/counter/msm" alt="views" class="h-6 object-contain pointer-events-none brightness-110">
           </div>
         </div>
 
@@ -138,47 +138,13 @@
   </div>
 
   <script>
-    // 1. Ziyaretçi Sayacı (Counter) Mantığı - CORS Engeli Tamamen Çözüldü
-    async function handleCounter() {
-      const counterEl = document.getElementById('view-counter');
+    // 1. Ziyaretçi Sayacı Tetikleyicisi (Sadece Sayacı Arka Planda Arttırır)
+    function handleCounter() {
       const hasVisited = localStorage.getItem('msm_visited');
-      
-      // Kullanıcı ilk defa giriyorsa, resmi arkada yükleterek tetikleme yapıyoruz (CORS bypass yöntemi)
       if (!hasVisited) {
         const triggerImg = new Image();
-        triggerImg.src = 'https://credos.qzz.io/api/counter/msm/up?' + new Date().getTime(); // Cache'lemeyi önlemek için timestamp ekledik
+        triggerImg.src = 'https://credos.qzz.io/api/counter/msm/up?' + new Date().getTime();
         localStorage.setItem('msm_visited', 'true');
-        
-        // Tetiklemeden hemen sonra güncel veriyi almak için ufak bir bekleme koyuyoruz
-        await new Promise(resolve => setTimeout(resolve, 600));
-      }
-
-      try {
-        // no-cors modu ile istek atıp, text tabanlı response alarak JSON verisini güvenle ayıklıyoruz
-        const response = await fetch('https://credos.qzz.io/api/counter/msm', {
-          method: 'GET',
-          mode: 'no-cors' // CORS bloklamasını tamamen devre dışı bırakır
-        });
-        
-        // no-cors modunda gövde okunamayacağı için direkt olarak API'yi tekrar fetch ederek normal yöntemle son bir kez deniyoruz
-        const directRes = await fetch('https://credos.qzz.io/api/counter/msm');
-        const data = await directRes.json();
-        
-        if (data && data.result !== undefined) {
-          counterEl.textContent = data.result;
-        } else {
-          counterEl.textContent = '1';
-        }
-      } catch (error) {
-        console.error('Sayaç okunurken hata:', error);
-        // Eğer tarayıcı hiçbir fetch işlemine izin vermezse, doğrudan API'nin kendi döneceği tahmini değeri veya yedek değer yerine dinamik çekim yapmayı dener
-        counterEl.textContent = '...';
-        
-        // Üçüncü yedek plan: JSONP/İmaj bazlı okuma olmadığı için, sayacı direkt sunucudan text olarak okumaya zorla
-        fetch('https://credos.qzz.io/api/counter/msm')
-          .then(res => res.json())
-          .then(data => { if(data.result) counterEl.textContent = data.result; })
-          .catch(() => { counterEl.textContent = 'Enrolled'; });
       }
     }
 
