@@ -75,7 +75,7 @@
 
       <div class="card rounded-3xl p-6 flex flex-col">
         <div class="flex items-center justify-between mb-4">
-          <p class="text-lg font-semibold flex items-center gap-2">
+          <p id="spotify-header" class="text-lg font-semibold flex items-center gap-2">
             <i class="fab fa-spotify text-green-400"></i>
             Listening to Spotify
           </p>
@@ -121,7 +121,7 @@
         if (result.success && result.data) {
           const data = result.data;
           
-          // 1. Statü Belirleme Alanı
+          // 1. Discord Durum Kontrolü
           const status = data.discord_status || 'offline';
           const statusIconEl = document.getElementById('status-icon');
           const textStatusEl = document.getElementById('text-status');
@@ -142,13 +142,17 @@
             textStatusEl.className = 'text-gray-400 text-sm';
           }
 
-          // 2. Spotify Durumu Güncelleme Alanı
+          // 2. Spotify Kontrolü (Rich Presence kapalıyken sadece gerçek Spotify'a bakar)
           const spotifyContent = document.getElementById('spotify-content');
+          const spotifyHeader = document.getElementById('spotify-header');
+
           if (data.listening_to_spotify && data.spotify) {
+            // Spotify'da aktif olarak müzik çalıyorsa başlığı yeşil yap
+            spotifyHeader.innerHTML = `<i class="fab fa-spotify text-green-400"></i> Listening to Spotify`;
             
-            // Şarkı isminin son kelimesini (parçasını) alıyoruz
-            const fullTrackName = data.spotify.track;
-            const lastWordOfTrack = fullTrackName.trim().split(' ').pop();
+            // Şarkı adının sadece son kelimesini güvenli bir şekilde ayıkla
+            const rawTrack = data.spotify.track || "";
+            const lastWordOfTrack = rawTrack.trim().split(' ').pop();
 
             spotifyContent.innerHTML = `
               <img src="${data.spotify.album_art_url}" class="w-24 h-24 rounded-xl shadow-lg mb-3 object-cover animate-pulse" alt="Album Art">
@@ -156,6 +160,8 @@
               <p class="text-sm text-gray-400 line-clamp-1">by ${data.spotify.artist}</p>
             `;
           } else {
+            // Spotify kapalıysa veya duraklatılmışsa varsayılan boş duruma geç
+            spotifyHeader.innerHTML = `<i class="fab fa-spotify text-gray-500"></i> Spotify`;
             spotifyContent.innerHTML = `<p class="text-gray-400">Not listening to anything</p>`;
           }
         }
@@ -164,8 +170,9 @@
       }
     }
 
+    // İlk tetikleme ve her 10 saniyede bir otomatik yenileme
     fetchLanyardData();
-    setInterval(fetchLanyardData, 15000);
+    setInterval(fetchLanyardData, 10000);
   </script>
 </body>
 </html>
