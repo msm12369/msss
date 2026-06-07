@@ -41,21 +41,25 @@
   <div class="main-container">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <!-- Sol Üst - Profil Kartı -->
       <div class="lg:col-span-2 card rounded-3xl p-6">
         <div class="flex gap-6">
+          
           <div class="relative flex-shrink-0">
             <img src="https://cdn.discordapp.com/avatars/1008802161104261250/be7cb688d508a3f825f38cb9558d7043.png"
                  alt="avatar" class="w-32 h-32 rounded-full object-cover">
+            <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full border border-zinc-800 bg-[#0d1117] flex items-center justify-center overflow-hidden">
+              <img id="status-icon" src="https://credosdata.qzz.io/assets/offline.png" alt="status" class="w-full h-full object-cover">
+            </div>
           </div>
+
           <div class="flex-1">
             <div class="flex items-center gap-3">
               <h1 class="text-3xl font-bold">msm</h1>
-              <span class="text-emerald-400 text-sm">● Online</span>
+              <span id="text-status" class="text-gray-400 text-sm">● Offline</span>
             </div>
             <p class="text-gray-400">@msm</p>
             <p class="mt-3 text-lg">"..."</p>
-         
+          
             <div class="flex gap-4 mt-6 text-2xl">
               <a href="https://discord.com/users/1008802161104261250" target="_blank">
                 <i class="fab fa-discord hover:text-indigo-400 cursor-pointer"></i>
@@ -69,7 +73,6 @@
         </div>
       </div>
 
-      <!-- Spotify Kartı -->
       <div class="card rounded-3xl p-6 flex flex-col">
         <div class="flex items-center justify-between mb-4">
           <p class="text-lg font-semibold flex items-center gap-2">
@@ -77,18 +80,17 @@
             Listening to Spotify
           </p>
         </div>
-       
+        
         <div id="spotify-content" class="flex-1 flex flex-col items-center justify-center text-center min-h-[220px]">
           <p class="text-gray-400">Connecting to Spotify...</p>
         </div>
       </div>
 
-      <!-- Hakkımda -->
       <div class="lg:col-span-3 card rounded-3xl p-6">
         <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
           About Me
         </h2>
-     
+      
         <div class="mb-6">
           <p class="text-sm text-gray-400">Who am I?</p>
           <p class="text-lg">i'm <span class="text-cyan-400">msm</span> - a guy who likes playing games with his friends</p>
@@ -110,6 +112,58 @@
     </div>
   </div>
 
+  <script>
+    async function fetchLanyardData() {
+      try {
+        const response = await fetch('https://api.lanyard.rest/v1/users/1008802161104261250');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          const data = result.data;
+          
+          // 1. Statü Belirleme mantığı
+          const status = data.discord_status || 'offline';
+          const statusIconEl = document.getElementById('status-icon');
+          const textStatusEl = document.getElementById('text-status');
+          
+          // API'den gelen dnd, idle, online, offline durumlarına göre endpoint oluşturuluyor
+          statusIconEl.src = `https://credosdata.qzz.io/assets/${status}.png`;
+          
+          // İsim yanındaki text durumunu da güncelleyelim
+          if (status === 'online') {
+            textStatusEl.textContent = '● Online';
+            textStatusEl.className = 'text-emerald-400 text-sm';
+          } else if (status === 'dnd') {
+            textStatusEl.textContent = '● Do Not Disturb';
+            textStatusEl.className = 'text-red-400 text-sm';
+          } else if (status === 'idle') {
+            textStatusEl.textContent = '● Idle';
+            textStatusEl.className = 'text-amber-400 text-sm';
+          } else {
+            textStatusEl.textContent = '● Offline';
+            textStatusEl.className = 'text-gray-400 text-sm';
+          }
 
+          // 2. Spotify Verisi Güncelleme alanı (Bonus)
+          const spotifyContent = document.getElementById('spotify-content');
+          if (data.listening_to_spotify && data.spotify) {
+            spotifyContent.innerHTML = `
+              <img src="${data.spotify.album_art_url}" class="w-24 h-24 rounded-xl shadow-lg mb-3 object-cover animate-pulse" alt="Album Art">
+              <p class="font-semibold text-white text-base line-clamp-1">${data.spotify.track}</p>
+              <p class="text-sm text-gray-400 line-clamp-1">by ${data.spotify.artist}</p>
+            `;
+          } else {
+            spotifyContent.innerHTML = `<p class="text-gray-400">Not listening to anything</p>`;
+          }
+        }
+      } catch (error) {
+        console.error('Lanyard verisi çekilirken hata oluştu:', error);
+      }
+    }
+
+    // Sayfa açıldığında çalıştır ve her 15 saniyede bir veriyi yenile
+    fetchLanyardData();
+    setInterval(fetchLanyardData, 15000);
+  </script>
 </body>
 </html>
