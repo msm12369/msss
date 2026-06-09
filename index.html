@@ -47,10 +47,12 @@
           <img src="https://i.imgur.com/EpKmdiP.png" 
                alt="banner" class="w-full h-full object-cover opacity-80">
           
-          <div class="absolute top-4 right-4 bg-black/50 border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md select-none z-20">
-            <i class="far fa-eye text-cyan-400"></i>
+          <!-- Guns.lol Profiline Giden Canlı Görüntülenme Sayacı -->
+          <a href="https://guns.lol/msss" target="_blank" 
+             class="absolute top-4 right-4 bg-black/50 border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md select-none z-20 hover:bg-black/70 transition-all hover:scale-105">
+            <i class="fas fa-crosshairs text-red-400"></i>
             <span id="view-counter" class="font-medium">...</span>
-          </div>
+          </a>
         </div>
 
         <div class="p-6 pt-0 relative flex flex-col gap-6">
@@ -138,38 +140,24 @@
   </div>
 
   <script>
-    // 1. Canlı Ziyaretçi Sayacı Çekici (CORS Engeli Olmayan Tam Dinamik Çözüm)
+    // 1. Guns.lol Görüntülenme Sayacı Çekici
     async function handleCounter() {
       const counterEl = document.getElementById('view-counter');
-      const hasVisited = localStorage.getItem('msm_ultimate_visited');
-      
-      // Allorigins, sunucunun CORS kısıtlamasını tamamen kaldırıp JSON verisini doğrudan tarayıcıya paslar
-      const bypassProvider = 'https://api.allorigins.win/get?url=';
-      
-      let targetApi = 'https://credos.qzz.io/api/counter/msm';
-      
-      // İstediğin mantık: Localstorage yoksa /up ile arttır ve sonucu al, varsa direkt /msm'den çek
-      if (!hasVisited) {
-        targetApi = 'https://credos.qzz.io/api/counter/msm/up';
-        localStorage.setItem('msm_ultimate_visited', 'true');
-      }
+      const targetApi = 'https://api.guns.lol/user/msss';
 
       try {
-        // İsteği bypass tüneli üzerinden gönderiyoruz
-        const response = await fetch(bypassProvider + encodeURIComponent(targetApi));
-        const outerData = await response.json();
+        const response = await fetch(targetApi);
+        const data = await response.json();
         
-        // Gelen wrapper objesinden senin API'nin saf string/JSON çıktısını süzüyoruz
-        const realJson = JSON.parse(outerData.contents);
-        
-        // Tam istediğin yer: JSON içindeki "result" değerini bulup ekrana basıyoruz
-        if (realJson && realJson.result !== undefined) {
-          counterEl.textContent = realJson.result;
+        if (data.status === 200 && data.data && data.data.details) {
+          const views = data.data.details.views;
+          // Sayıyı binlik ayıracıyla formatlar (Örn: 1,540)
+          counterEl.textContent = Number(views).toLocaleString('en-US');
         } else {
-          counterEl.textContent = "1";
+          counterEl.textContent = "0";
         }
       } catch (error) {
-        console.error('Sayaç verisi parse edilemedi:', error);
+        console.error('Guns.lol sayaç verisi çekilemedi:', error);
         counterEl.textContent = "Error";
       }
     }
